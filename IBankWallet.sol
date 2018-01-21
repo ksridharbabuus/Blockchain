@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 contract IBankWallet {
 
-     address owner;
+     //address owner;
 
      mapping(address => uint256) balances;
      // balances["0xabcdef"] = 100;
