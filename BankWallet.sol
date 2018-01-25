@@ -7,6 +7,7 @@ import "./Ownable.sol";
 contract BankWallet is IBankWallet, Ownable {
 
      using SafeMath for uint256;
+     event SetGasPrice(uint);
      
      function BankWallet() public {
          owner = msg.sender; // Owner of the contract
@@ -14,6 +15,12 @@ contract BankWallet is IBankWallet, Ownable {
          totalAmount = 0;
      }
 
+    function() payable public {
+        //revert();
+        Deposit(msg.value);
+    }
+
+     // All the Amounts are in Wei
      function Deposit(uint256 _amount) public {
          require(_amount >= 0);
          //balances[msg.sender] = balances[msg.sender] + _amount;
@@ -21,7 +28,7 @@ contract BankWallet is IBankWallet, Ownable {
          totalAmount = totalAmount.add(_amount);
      }
      
-     function Withdraw(uint256 _amount) public returns (uint256){
+     function Withdraw(uint256 _amount) public returns (uint){
          
          require(balances[msg.sender] >= _amount);
          
@@ -33,7 +40,10 @@ contract BankWallet is IBankWallet, Ownable {
          balances[msg.sender] = balances[msg.sender].sub(_amount);
          totalAmount = totalAmount.sub(_amount);
          
+         SetGasPrice(tx.gasprice);
+         
          return balances[msg.sender];
+         
      }
     
     function GetBalance() public view returns (uint256) {
