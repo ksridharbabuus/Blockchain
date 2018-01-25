@@ -8,6 +8,7 @@ contract BankWallet is IBankWallet, Ownable {
 
      using SafeMath for uint256;
      event SetGasPrice(uint);
+     //uint256 currenttime = now;
      
      function BankWallet() public {
          owner = msg.sender; // Owner of the contract
@@ -15,9 +16,11 @@ contract BankWallet is IBankWallet, Ownable {
          totalAmount = 0;
      }
 
+    // Fallback function for direct transfer
     function() payable public {
         //revert();
         Deposit(msg.value);
+        
     }
 
      // All the Amounts are in Wei
